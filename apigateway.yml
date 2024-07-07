@@ -23,3 +23,7 @@ enabled: true
 eureka:
 instance:
 hostname: localhost
+
+spring:
+profiles:
+active: default
