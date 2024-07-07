@@ -4,7 +4,7 @@ port: 9191
 spring:
 application:
 name: API-Gateway
-cloud::
+cloud:
 gateway:
 routes:
 - id: BOOKING-SERVICE
