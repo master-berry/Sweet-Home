@@ -3,7 +3,7 @@ port: 9191
 
 spring:
 application:
-name: APIGateway
+name: API-Gateway
 cloud:
 gateway:
 routes:
