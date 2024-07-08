@@ -1,6 +1,5 @@
 package com.upgrad.Payment.controllers;
 
-
 import com.upgrad.Payment.dto.PaymentDTO;
 import com.upgrad.Payment.entities.TransactionDetailsEntity;
 import com.upgrad.Payment.exception.InvalidArgumentException;
@@ -22,30 +21,43 @@ public class PaymentController {
     @Autowired
     ModelMapper mapper;
 
-    @PostMapping(value = "/transaction", consumes = MediaType.APPLICATION_JSON_VALUE,
-    produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createTransaction(@RequestBody PaymentDTO paymentDTO){
+    /**
+     * Handles the creation of a new transaction.
+     * Converts the incoming PaymentDTO to a TransactionDetailsEntity,
+     * processes it using the payment service, and returns the transaction ID.
+     *
+     * @param paymentDTO The payment details received in the request body.
+     * @return ResponseEntity with the transaction ID and HTTP status CREATED.
+     */
+    @PostMapping(value = "/transaction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity createTransaction(@RequestBody PaymentDTO paymentDTO) {
         System.out.println("We are here");
         TransactionDetailsEntity transactionDetails = mapper.map(paymentDTO, TransactionDetailsEntity.class);
 
         TransactionDetailsEntity savedTransaction = paymentService.acceptPaymentDetails(transactionDetails);
-        PaymentDTO paymentDTO1 = mapper.map(savedTransaction,PaymentDTO.class);
+        PaymentDTO paymentDTO1 = mapper.map(savedTransaction, PaymentDTO.class);
 
         return new ResponseEntity(paymentDTO1.getTransactionId(), HttpStatus.CREATED);
     }
 
-
-    @GetMapping(value = "/transaction/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getTransaction(@PathVariable int id){
+    /**
+     * Retrieves transaction details based on the transaction ID.
+     * Converts the retrieved TransactionDetailsEntity to a PaymentDTO and returns it.
+     * Throws an InvalidArgumentException if the transaction ID is invalid.
+     *
+     * @param id The transaction ID.
+     * @return ResponseEntity with the payment details and HTTP status OK.
+     */
+    @GetMapping(value = "/transaction/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getTransaction(@PathVariable int id) {
         TransactionDetailsEntity transactionDetails = paymentService.getTransactionDetails(id);
-        System.out.println("transactionDetails"+transactionDetails);
-        if(transactionDetails==null){
+        System.out.println("transactionDetails" + transactionDetails);
+        if (transactionDetails == null) {
             throw new InvalidArgumentException("Invalid Transaction Id");
         }
 
         PaymentDTO paymentDTO = mapper.map(transactionDetails, PaymentDTO.class);
 
-        return new ResponseEntity(paymentDTO,HttpStatus.OK);
+        return new ResponseEntity(paymentDTO, HttpStatus.OK);
     }
 }

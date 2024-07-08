@@ -1,7 +1,9 @@
+# Configuration for the server port
 server:
-  port: 8761
+  port: 8761  # This is the port number on which the Eureka server will run
 
+# Eureka client configuration
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false  # This application will not register itself with the Eureka server
+    fetch-registry: false        # This application will not fetch the registry from the Eureka server

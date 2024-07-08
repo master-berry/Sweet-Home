@@ -1,7 +1,11 @@
 package com.upgrad.Payment.exception.dto;
 
-import java.util.List;
-
+/*
+  Error response returns with
+   @param message - String
+   @param StatusCode- int
+   and respective getters and setters.
+ */
 public class ErrorResponse {
 
     private String message;
